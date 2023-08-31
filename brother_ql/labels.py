@@ -105,6 +105,13 @@ ALL_LABELS = (
   Label("d24",    ( 24,  24), FormFactor.ROUND_DIE_CUT, ( 284,  284), ( 236,  236),  42 ),
   Label("d58",    ( 58,  58), FormFactor.ROUND_DIE_CUT, ( 688,  688), ( 618,  618),  51 ),
   Label("pt24",   ( 24,   0), FormFactor.PTOUCH_ENDLESS,( 128,    0), ( 128,    0),   0, feed_margin=14),
+
+  # PT-E550W
+  Label("pte6",   (  6,   0), FormFactor.PTOUCH_ENDLESS,(  42,    0), (  32,    0),  48, feed_margin=14, restricted_to_models=['PT-E550W']),
+  Label("pte9",   (  9,   0), FormFactor.PTOUCH_ENDLESS,(  64,    0), (  50,    0),  39, feed_margin=14, restricted_to_models=['PT-E550W']),
+  Label("pte12",  ( 12,   0), FormFactor.PTOUCH_ENDLESS,(  84,    0), (  70,    0),  29, feed_margin=14, restricted_to_models=['PT-E550W']),
+  Label("pte18",  ( 18,   0), FormFactor.PTOUCH_ENDLESS,( 128,    0), ( 112,    0),   8, feed_margin=14, restricted_to_models=['PT-E550W']),
+  Label("pte24",  ( 24,   0), FormFactor.PTOUCH_ENDLESS,( 170,    0), ( 128,    0),   0, feed_margin=14, restricted_to_models=['PT-E550W']),
 )
 
 class LabelsManager(ElementsManager):
