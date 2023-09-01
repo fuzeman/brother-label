@@ -204,13 +204,12 @@ def print_cmd(ctx, no_compress, no_cut, *args, **kwargs):
         strict=True
     )
 
-    instructions = brother.convert(
+    brother.print(
+        blocking=True,
         compress=not no_compress,
         cut=not no_cut,
         **kwargs
     )
-
-    brother.send(instructions, blocking=True)
 
 @cli.command('analyze', help='interpret a binary file containing raster instructions for the Brother QL-Series printers')
 @click.argument('instructions', type=click.File('rb'))

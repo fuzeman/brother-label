@@ -35,7 +35,7 @@ class BrotherLabel(object):
             self.list_available_devices = None
             self.backend = None
 
-    def convert(self, type, images,  **kwargs):
+    def convert(self, type, images, **kwargs):
         return self.converter.convert(self.device, type, images, **kwargs)
 
     def discover(self):
@@ -43,6 +43,11 @@ class BrotherLabel(object):
             raise LookupError('No backend available')
         
         return self.list_available_devices()
+    
+    def print(self, type, images, blocking=True,  **kwargs):
+        instructions = self.convert(type, images, **kwargs)
+
+        self.send(instructions, blocking=blocking)
 
     def send(self, instructions, blocking=True):
         """
