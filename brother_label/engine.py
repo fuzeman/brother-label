@@ -67,8 +67,12 @@ class BrotherLabel(object):
         :param bool blocking: Indicates whether the function call should block while waiting for the completion of the printing.
         """
 
-        if not self.backend:
+        backend = backend_factory(backend)['backend_class'] if backend else self.backend
+
+        if not backend:
             raise LookupError('No backend available')
+
+        printer = backend(target or self.target)
 
         status = {
           'instructions_sent': True, # The instructions were sent to the printer.
@@ -77,9 +81,6 @@ class BrotherLabel(object):
           'did_print': False, # If True, a print was produced. It defaults to False if the outcome is uncertain (due to a backend without read-back capability).
           'ready_for_next_job': False, # If True, the printer is ready to receive the next instructions. It defaults to False if the state is unknown.
         }
-
-        backend = backend_factory(backend)['backend_class'] if backend else self.backend
-        printer = backend(target or self.target)
 
         start = time.time()
         logger.info('Sending instructions to the printer. Total: %d bytes.', len(instructions))
