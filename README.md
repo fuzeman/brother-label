@@ -7,7 +7,7 @@ Brother label printer interface for QL and PT series printers.
 Fork of https://github.com/pklaus/brother_ql and https://github.com/matmair/brother_ql-inventree with many
 improvements and features planned, including:
 
-- Better support for device-specific label specifications (e.g. QL vs PTouch)
+- Better support for device-specific label specifications (e.g. QL vs PT)
 - Support for new devices (PT-E550W)
 - Removed redudant legacy/compatibility code
 - ...
@@ -41,6 +41,56 @@ improvements and features planned, including:
 
  - **Supported:** Device is supported, but no verification has been received.
  - **Verified:** Device is supported, and verified by a user.
+
+## Labels
+
+### Continuous / Endless
+
+| Type             | QL     | QL-10  | QL-11  | PT    | PT-E  |
+| ---------------- | ------ | ------ | ------ | ----- | ------ |
+| 6                | ❌    | ❌    | ❌    | ❌    | ✔️    |
+| 9                | ❌    | ❌    | ❌    | ❌    | ✔️    |
+| 12               | ✔️    | ✔️    | ✔️    | ✔️    | ✔️    |
+| 18               | ✔️    | ✔️    | ✔️    | ✔️    | ✔️    |
+| 24               | ❌    | ❌    | ❌    | ✔️    | ✔️    |
+| 29               | ✔️    | ✔️    | ✔️    | ❌    | ❌    |
+| 36               | ❌    | ❌    | ❌    | ✔️    | ✔️    |
+| 38               | ✔️    | ✔️    | ✔️    | ❌    | ❌    |
+| 50               | ✔️    | ✔️    | ✔️    | ❌    | ❌    |
+| 54               | ✔️    | ✔️    | ✔️    | ❌    | ❌    |
+| 62               | ✔️    | ✔️    | ✔️    | ❌    | ❌    |
+| 62red            | ✔️    | ✔️    | ✔️    | ❌    | ❌    |
+| 102              | ❌    | ✔️    | ❌    | ❌    | ❌    |
+| 103              | ❌    | ❌    | ✔️    | ❌    | ❌    |
+| 104              | ❌    | ✔️    | ❌    | ❌    | ❌    |
+
+### Die-Cut
+
+| Type             | QL     | QL-10  | QL-11 |
+| ---------------- | ------ | ------ | ----- |
+| 17x54            | ✔️    | ✔️    | ✔️    |
+| 17x87            | ✔️    | ✔️    | ✔️    |
+| 23x23            | ✔️    | ✔️    | ✔️    |
+| 29x42            | ✔️    | ✔️    | ✔️    |
+| 29x90            | ✔️    | ✔️    | ✔️    |
+| 39x90            | ✔️    | ✔️    | ✔️    |
+| 39x48            | ✔️    | ✔️    | ✔️    |
+| 52x29            | ✔️    | ✔️    | ✔️    |
+| 54x29            | ✔️    | ✔️    | ✔️    |
+| 60x86            | ✔️    | ✔️    | ✔️    |
+| 62x29            | ✔️    | ✔️    | ✔️    |
+| 62x100           | ✔️    | ✔️    | ✔️    |
+| 102x51           | ❌    | ✔️    | ❌    |
+| 102x152          | ❌    | ✔️    | ❌    |
+| 103x164          | ❌    | ❌    | ✔️    |
+
+### Round Die-Cut
+
+| Type             | QL     | QL-10  | QL-11  |
+| ---------------- | ------ | ------ | ------ |
+| d12              | ✔️    | ✔️    | ✔️    |
+| d24              | ✔️    | ✔️    | ✔️    |
+| d58              | ✔️    | ✔️    | ✔️    |
 
 ## Backends
 
