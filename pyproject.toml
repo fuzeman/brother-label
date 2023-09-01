@@ -1,7 +1,7 @@
 [project]
 name = "brother-label"
 version = "2.0a1"
-description = "Python package to talk to Brother QL label printers"
+description = "Brother label printer interface for QL and PT series printers."
 readme = "README.md"
 authors = [
     { name = "Philipp Klaus", email = "philipp.l.klaus@web.de" },
@@ -24,7 +24,9 @@ keywords = [
     "QL-550",
     "QL-560",
     "QL-570",
+    "QL-580N",
     "QL-600",
+    "QL-650TD",
     "QL-700",
     "QL-710W",
     "QL-720NW",
@@ -36,6 +38,10 @@ keywords = [
     "QL-1100",
     "QL-1100NWB",
     "QL-1115NWB",
+    "PT-P750W",
+    "PT-P900W",
+    "PT-P950NW",
+    "PT-E550W",
 ]
 classifiers = [
     "Development Status :: 4 - Beta",

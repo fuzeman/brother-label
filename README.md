@@ -1,6 +1,6 @@
 # brother-label
 
-Python package for the raster language protocol of the Brother QL series label printers
+Brother label printer interface for QL and PT series printers.
 
 Fork of https://github.com/pklaus/brother_ql and https://github.com/matmair/brother_ql-inventree with many
 improvements and features planned, including:
