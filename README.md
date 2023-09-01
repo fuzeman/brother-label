@@ -2,7 +2,7 @@
 
 Brother label printer interface for QL and PT series printers.
 
-**Alpha:** API is currently being re-worked and should not be considered stable.
+**API is currently being re-worked and should not be considered stable.**
 
 Fork of https://github.com/pklaus/brother_ql and https://github.com/matmair/brother_ql-inventree with many
 improvements and features planned, including:
