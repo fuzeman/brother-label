@@ -36,6 +36,9 @@ class BrotherLabel(object):
             self.backend = None
 
     def convert(self, type, images, device=None, **kwargs):
+        if device and isinstance(device, str):
+            device = self.devices[device]
+
         return self.converter.convert(device or self.device, type, images, **kwargs)
 
     def discover(self):
