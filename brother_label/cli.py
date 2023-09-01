@@ -19,7 +19,7 @@ printer_help = "The identifier for the printer. This could be a string like tcp:
 @click.group()
 @click.option('-b', '--backend', type=click.Choice(available_backends), envvar='BROTHER_LABEL_BACKEND')
 @click.option('-m', '--device', type=click.Choice(BrotherDeviceManager().keys()), envvar='BROTHER_LABEL_DEVICE')
-@click.option('-p', '--printer', metavar='PRINTER_IDENTIFIER', envvar='BROTHER_LABEL_PRINTER', help=printer_help)
+@click.option('-p', '--target', metavar='TARGET', envvar='BROTHER_LABEL_TARGET', help=printer_help)
 @click.option('--debug', is_flag=True)
 @click.version_option()
 @click.pass_context
@@ -28,14 +28,14 @@ def cli(ctx, *args, **kwargs):
 
     backend = kwargs.get('backend', None)
     device = kwargs.get('device', None)
-    printer = kwargs.get('printer', None)
+    target = kwargs.get('target', None)
     debug = kwargs.get('debug')
 
     # Store the general CLI options in the context meta dictionary.
     # The name corresponds to the second half of the respective envvar:
     ctx.meta['DEVICE'] = device
     ctx.meta['BACKEND'] = backend
-    ctx.meta['PRINTER'] = printer
+    ctx.meta['TARGET'] = target
 
     logging.basicConfig(level='DEBUG' if debug else 'INFO')
 
@@ -160,13 +160,13 @@ def env_cmd(ctx, *args, **kwargs):
 @click.option('-r', '--rotate', type=click.Choice(('auto', '0', '90', '180', '270')), default='auto', help='Rotate the image (counterclock-wise) by this amount of degrees.')
 @click.option('-t', '--threshold', type=float, default=70.0, help='The threshold value (in percent) to discriminate between black and white pixels.')
 @click.option('-d', '--dither', is_flag=True, help='Enable dithering when converting the image to b/w. If set, --threshold is meaningless.')
-@click.option('-c', '--compress', is_flag=True, help='Enable compression (if available with the model). Label creation can take slightly longer but the resulting instruction size is normally considerably smaller.')
 @click.option('--red', is_flag=True, help='Create a label to be printed on black/red/white tape (only with QL-8xx series on DK-22251 labels). You must use this option when printing on black/red tape, even when not printing red.')
 @click.option('--600dpi', 'dpi_600', is_flag=True, help='Print with 600x300 dpi available on some models. Provide your image as 600x600 dpi; perpendicular to the feeding the image will be resized to 300dpi.')
 @click.option('--lq', is_flag=True, help='Print with low quality (faster). Default is high quality.')
+@click.option('--no-compress', is_flag=True, help='Disable compression.')
 @click.option('--no-cut', is_flag=True, help="Don't cut the tape after printing the label.")
 @click.pass_context
-def create_cmd(ctx, *args, **kwargs):
+def create_cmd(ctx, no_compress, no_cut, *args, **kwargs):
     """ Create a label of the provided IMAGE. """
     from .engine import BrotherLabel
 
@@ -174,37 +174,43 @@ def create_cmd(ctx, *args, **kwargs):
         ctx.meta.get('DEVICE'),
         strict=True
     )
-    kwargs['cut'] = not kwargs['no_cut']
-    del kwargs['no_cut']
-    data = brother.convert(**kwargs)
-    kwargs['out'].write(data)
+    instructions = brother.convert(
+        compress=not no_compress,
+        cut=not no_cut,
+        **kwargs
+    )
+    kwargs['out'].write(instructions)
 
 @cli.command('print', short_help='print a label')
 @click.argument('images', nargs=-1, type=click.File('rb'), metavar='IMAGE [IMAGE] ...')
-@click.option('-l', '--label', envvar='BROTHER_QL_LABEL', help='The label (size, type - die-cut or endless). Run `brother_label info labels` for a full list including ideal pixel dimensions.')
+@click.option('-t', '--type', envvar='BROTHER_QL_LABEL', help='The label (size, type - die-cut or endless). Run `brother_label info labels` for a full list including ideal pixel dimensions.')
 @click.option('-r', '--rotate', type=click.Choice(('auto', '0', '90', '180', '270')), default='auto', help='Rotate the image (counterclock-wise) by this amount of degrees.')
 @click.option('-t', '--threshold', type=float, default=70.0, help='The threshold value (in percent) to discriminate between black and white pixels.')
 @click.option('-d', '--dither', is_flag=True, help='Enable dithering when converting the image to b/w. If set, --threshold is meaningless.')
-@click.option('-c', '--compress', is_flag=True, help='Enable compression (if available with the model). Label creation can take slightly longer but the resulting instruction size is normally considerably smaller.')
 @click.option('--red', is_flag=True, help='Create a label to be printed on black/red/white tape (only with QL-8xx series on DK-22251 labels). You must use this option when printing on black/red tape, even when not printing red.')
 @click.option('--600dpi', 'dpi_600', is_flag=True, help='Print with 600x300 dpi available on some models. Provide your image as 600x600 dpi; perpendicular to the feeding the image will be resized to 300dpi.')
 @click.option('--lq', is_flag=True, help='Print with low quality (faster). Default is high quality.')
+@click.option('--no-compress', is_flag=True, help='Disable compression.')
 @click.option('--no-cut', is_flag=True, help="Don't cut the tape after printing the label.")
 @click.pass_context
-def print_cmd(ctx, *args, **kwargs):
+def print_cmd(ctx, no_compress, no_cut, *args, **kwargs):
     """Print a label of the provided IMAGE. """
-    backend = ctx.meta.get('BACKEND', 'pyusb')
-    model = ctx.meta.get('MODEL')
-    printer = ctx.meta.get('PRINTER')
-    from .conversion import convert
-    from .backends.helpers import send
-    from .raster import BrotherQLRaster
-    qlr = BrotherQLRaster(model)
-    qlr.exception_on_warning = True
-    kwargs['cut'] = not kwargs['no_cut']
-    del kwargs['no_cut']
-    instructions = convert(qlr=qlr, **kwargs)
-    send(instructions=instructions, printer_identifier=printer, backend_identifier=backend, blocking=True)
+    from .engine import BrotherLabel
+    
+    brother = BrotherLabel(
+        ctx.meta.get('DEVICE'),
+        backend=ctx.meta.get('BACKEND', 'pyusb'),
+        target=ctx.meta.get('TARGET'),
+        strict=True
+    )
+
+    instructions = brother.convert(
+        compress=not no_compress,
+        cut=not no_cut,
+        **kwargs
+    )
+
+    brother.send(instructions, blocking=True)
 
 @cli.command('analyze', help='interpret a binary file containing raster instructions for the Brother QL-Series printers')
 @click.argument('instructions', type=click.File('rb'))

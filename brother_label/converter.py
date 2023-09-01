@@ -49,7 +49,7 @@ class BrotherLabelConverter(object):
 
         cut = kwargs.get('cut', True)
         dither = kwargs.get('dither', False)
-        compress = kwargs.get('compress', False)
+        compress = kwargs.get('compress', True)
         red = kwargs.get('red', False)
         rotate = kwargs.get('rotate', 'auto')
         if rotate != 'auto': rotate = int(rotate)
