@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-Helpers for the subpackage brother_ql.backends
+Helpers for the subpackage brother_label.backends
 
 * device discovery
 * printing
@@ -9,8 +9,8 @@ Helpers for the subpackage brother_ql.backends
 
 import logging, time
 
-from brother_ql.backends import backend_factory, guess_backend
-from brother_ql.reader import interpret_response
+from . import backend_factory, guess_backend
+from ..reader import interpret_response
 
 logger = logging.getLogger(__name__)
 

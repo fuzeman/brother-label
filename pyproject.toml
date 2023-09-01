@@ -1,10 +1,11 @@
 [project]
-name = "brother_ql-inventree"
+name = "brother-label"
 version = "1.1a0"
 description = "Python package to talk to Brother QL label printers"
 readme = "README.md"
 authors = [
-    { name = "Philipp Klaus", email = "philipp.l.klaus@web.de" }
+    { name = "Philipp Klaus", email = "philipp.l.klaus@web.de" },
+    { name = "Dean Gardiner", email = "me@dgardiner.net" }
 ]
 license = {text = "GPL"}
 dependencies = [
@@ -48,11 +49,6 @@ classifiers = [
 
 [project.scripts]
 brother_ql = "brother_ql.cli:cli"
-brother_ql_analyse = "brother_ql.brother_ql_analyse:main"
-brother_ql_create = "brother_ql.brother_ql_create:main"
-brother_ql_print = "brother_ql.brother_ql_print:main"
-brother_ql_debug = "brother_ql.brother_ql_debug:main"
-brother_ql_info = "brother_ql.brother_ql_info:main"
 
 [project.urls]
-repository = "https://github.com/pklaus/brother_ql-inventree"
+repository = "https://github.com/fuzeman/brother-label"

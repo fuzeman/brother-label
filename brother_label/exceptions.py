@@ -1,4 +1,3 @@
-
 class BrotherQLError(Exception):
     pass
 
