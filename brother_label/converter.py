@@ -41,6 +41,9 @@ class BrotherLabelConverter(object):
             * **hq**
             * **threshold**
         """
+        if not device:
+            raise LookupError('No device available')
+        
         label = device.labels_by_id[type]
         raster = BrotherLabelRaster(device)
 
