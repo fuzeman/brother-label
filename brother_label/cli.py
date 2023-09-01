@@ -43,16 +43,18 @@ def cli(ctx, *args, **kwargs):
 @click.pass_context
 def discover_cmd(ctx):
     """ find connected label printers """
-    from .backends.helpers import discover
+    from .engine import BrotherLabel
     
-    backend = ctx.meta.get('BACKEND', 'pyusb')
-
+    brother = BrotherLabel(
+        ctx.meta.get('DEVICE'),
+        backend=ctx.meta.get('BACKEND', 'pyusb'),
+        strict=True
+    )
+    
     print('Available Devices:')
     print()
 
-    available_devices = discover(backend_identifier=backend)
-    
-    for ad in available_devices:
+    for ad in brother.discover():
         print(ad['identifier'])
 
 @cli.group()
@@ -225,8 +227,19 @@ def analyze_cmd(ctx, *args, **kwargs):
 @click.argument('instructions', type=click.File('rb'))
 @click.pass_context
 def send_cmd(ctx, *args, **kwargs):
-    from .backends.helpers import send
-    send(instructions=kwargs['instructions'].read(), printer_identifier=ctx.meta.get('PRINTER'), backend_identifier=ctx.meta.get('BACKEND'), blocking=True)
+    from .engine import BrotherLabel
+    
+    brother = BrotherLabel(
+        ctx.meta.get('DEVICE'),
+        backend=ctx.meta.get('BACKEND', 'pyusb'),
+        target=ctx.meta.get('TARGET'),
+        strict=True
+    )
+
+    brother.send(
+        kwargs['instructions'].read(),
+        blocking=True
+    )
 
 if __name__ == '__main__':
     cli()
