@@ -12,38 +12,38 @@ improvements and features planned, including:
 
 ## Devices
 
-| Device           | Status                      |
-| ---------------- | --------------------------- |
-| QL-500           | Supported                   |
-| QL-550           | Supported                   |
-| QL-560           | Supported                   |
-| QL-570           | Supported                   |
-| QL-580N          | Supported                   |
-| QL-600           | Supported                   |
-| QL-650TD         | Supported                   |
-| QL-700           | Supported                   |
-| QL-710W          | Supported                   |
-| QL-720NW         | Supported                   |
-| QL-800           | Supported                   |
-| QL-810W          | Supported                   |
-| QL-820NWB        | Supported                   |
-| QL-1050          | Supported                   |
-| QL-1060N         | Supported                   |
-| QL-1100          | Supported                   |
-| QL-1100NWB       | Supported                   |
-| QL-1115NWB       | Supported                   |
-| PT-P750W         | Supported                   |
-| PT-P900W         | Supported                   |
-| PT-P950NW        | Supported                   |
-| PT-E550W         | :heavy_check_mark: Verified |
+| Device           | Status       |
+| ---------------- | ------------ |
+| QL-500           | Supported    |
+| QL-550           | Supported    |
+| QL-560           | Supported    |
+| QL-570           | Supported    |
+| QL-580N          | Supported    |
+| QL-600           | Supported    |
+| QL-650TD         | Supported    |
+| QL-700           | Supported    |
+| QL-710W          | Supported    |
+| QL-720NW         | Supported    |
+| QL-800           | Supported    |
+| QL-810W          | Supported    |
+| QL-820NWB        | Supported    |
+| QL-1050          | Supported    |
+| QL-1060N         | Supported    |
+| QL-1100          | Supported    |
+| QL-1100NWB       | Supported    |
+| QL-1115NWB       | Supported    |
+| PT-P750W         | Supported    |
+| PT-P900W         | Supported    |
+| PT-P950NW        | Supported    |
+| PT-E550W         | ✔️ Verified |
 
  - **Supported:** Device is supported, but no verification has been received.
  - **Verified:** Device is supported, and verified by a user.
 
 ## Backends
 
-| Backend       | Type | Linux              | Mac OS             | Windows            |
-| ------------- | ---- | ------------------ | ------------------ | ------------------ |
-| network       | TCP  | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| linux\_kernel | USB  | :heavy_check_mark: | :x:                | :x:                |
-| py_usb        | USB  | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Backend       | Type | Linux | Mac OS | Windows |
+| ------------- | ---- | ----- | ------ | ------- |
+| network       | TCP  | ✔️   | ✔️     | ✔️     |
+| linux\_kernel | USB  | ✔️   | ❌     | ❌     |
+| py_usb        | USB  | ✔️   | ✔️     | ✔️     |
