@@ -46,6 +46,7 @@ class BrotherLabelRaster(object):
         self.cut_at_end = True
         self.dpi_600 = False
         self.two_color_printing = False
+        self.half_cut = False
         self._compression = False
         self.exception_on_warning = False
 
@@ -170,6 +171,7 @@ class BrotherLabelRaster(object):
         flags |= self.cut_at_end << 3
         flags |= self.dpi_600 << 6
         flags |= self.two_color_printing << 0
+        flags |= self.half_cut << 2
         self.data += bytes([flags])
 
     def add_margins(self, dots=0x23):

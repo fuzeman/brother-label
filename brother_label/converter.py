@@ -40,6 +40,7 @@ class BrotherLabelConverter(object):
             * **dpi_600**
             * **hq**
             * **threshold**
+            * **half_cut**
         """
         if not device:
             raise LookupError('No device available')
@@ -61,6 +62,7 @@ class BrotherLabelConverter(object):
         threshold = kwargs.get('threshold', 70)
         threshold = 100.0 - threshold
         threshold = min(255, max(0, int(threshold/100.0 * 255)))
+        half_cut = kwargs.get('half_cut', False)
 
         if red and not device.two_color:
             raise BrotherQLUnsupportedCmd('Printing in red is not supported with the selected model.')
@@ -181,6 +183,7 @@ class BrotherLabelConverter(object):
                 raster.dpi_600 = dpi_600
                 raster.cut_at_end = cut
                 raster.two_color_printing = True if red else False
+                raster.half_cut = half_cut
                 raster.add_expanded_mode()
             except BrotherQLUnsupportedCmd:
                 pass

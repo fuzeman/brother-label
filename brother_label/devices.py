@@ -34,6 +34,9 @@ class BrotherDevice(object):
     #: Support for two color printing (black/red/white)
     #: available only on some newer models.
     two_color = attrib(type=bool, default=False)
+    #: Support for the 'half-cut' feature where labels are scored
+    #: and not fully cut. Supported by some P-Touch models.
+    half_cut = attrib(type=bool, default=False)
     #: Number of NULL bytes needed for the invalidate command.
     num_invalidate_bytes = attrib(type=int, default=200)
 
@@ -167,5 +170,5 @@ class BrotherDeviceManager(ElementManager):
             BrotherDevicePT('PT-P950NW', (57, 28346), number_bytes_per_row=70),
 
             # PTE Series
-            BrotherDevicePTE('PT-E550W',  (31, 14172), number_bytes_per_row=16),
+            BrotherDevicePTE('PT-E550W',  (31, 14172), number_bytes_per_row=16, half_cut=True),
         ))
