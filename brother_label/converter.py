@@ -85,7 +85,7 @@ class BrotherLabelConverter(object):
         except BrotherQLUnsupportedCmd:
             pass
 
-        for image in images:
+        for x, image in enumerate(images):
             if isinstance(image, Image.Image):
                 im = image
             else:
@@ -203,7 +203,10 @@ class BrotherLabelConverter(object):
                 raster.add_raster_data(black_im, red_im)
             else:
                 raster.add_raster_data(im)
-            raster.add_print()
+
+            raster.add_print(
+                last_page=x >= len(images) - 1
+            )
 
         return raster.data
 

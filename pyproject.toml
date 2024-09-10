@@ -1,6 +1,6 @@
 [project]
 name = "brother-label"
-version = "2.0a7"
+version = "2.0a8"
 description = "Brother label printer interface for QL and PT series printers."
 readme = "README.md"
 authors = [
