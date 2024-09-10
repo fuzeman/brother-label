@@ -30,8 +30,14 @@ class BrotherLabelConverter(object):
             See below
 
         :Keyword Arguments:
-            * **cut** (``bool``) --
+            * **autocut** --
               Enable cutting after printing the labels.
+            * **autocut_every** --
+              Specify autocut every n-th labels.
+            * **autocut_end** --
+              Enable cutting after the last label is printed.
+            * **halfcut** --
+              Enable half-cutting of labels.
             * **dither** (``bool``) --
               Instead of applying a threshold to the pixel values, approximate grey tones with dithering.
             * **compress**
@@ -50,7 +56,10 @@ class BrotherLabelConverter(object):
         right_margin_dots = label.offset_r + device.additional_offset_r
         device_pixel_width = raster.get_pixel_width()
 
-        cut = kwargs.get('cut', True)
+        autocut = kwargs.get('autocut', True)
+        autocut_every = kwargs.get('autocut_every', 1)
+        autocut_end = kwargs.get('autocut_end', True)
+        halfcut = kwargs.get('halfcut', True)
         dither = kwargs.get('dither', False)
         compress = kwargs.get('compress', True)
         red = kwargs.get('red', False)
@@ -172,14 +181,15 @@ class BrotherLabelConverter(object):
             raster.pquality = int(hq)
             raster.add_media_and_quality(im.size[1])
             try:
-                if cut:
+                if autocut:
                     raster.add_autocut(True)
-                    raster.add_cut_every(1)
+                    raster.add_cut_every(autocut_every)
             except BrotherQLUnsupportedCmd:
                 pass
             try:
                 raster.dpi_600 = dpi_600
-                raster.cut_at_end = cut
+                raster.autocut_end = autocut_end
+                raster.halfcut = halfcut
                 raster.two_color_printing = True if red else False
                 raster.add_expanded_mode()
             except BrotherQLUnsupportedCmd:

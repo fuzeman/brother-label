@@ -43,7 +43,8 @@ class BrotherLabelRaster(object):
         self.data = b''
         self._pquality = True
         self.page_number = 0
-        self.cut_at_end = True
+        self.autocut_end = True
+        self.halfcut = True
         self.dpi_600 = False
         self.two_color_printing = False
         self._compression = False
@@ -167,7 +168,8 @@ class BrotherLabelRaster(object):
         
         self.data += b'\x1B\x69\x4B' # ESC i K
         flags = 0x00
-        flags |= self.cut_at_end << 3
+        flags |= self.halfcut << 2
+        flags |= self.autocut_end << 3
         flags |= self.dpi_600 << 6
         flags |= self.two_color_printing << 0
         self.data += bytes([flags])
