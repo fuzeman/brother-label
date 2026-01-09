@@ -116,6 +116,7 @@ class BrotherDevicePT(BrotherDevice):
     def labels(self):
         return super().labels + [
             # Continuous
+            Label(["6",  "pt6"],                                (  6,   0), FormFactor.PTOUCH_ENDLESS,(  85,    0), (  64,    0),   255, feed_margin=14),
             Label(["12", "pt12"],                               ( 12,   0), FormFactor.PTOUCH_ENDLESS,( 170,    0), ( 150,    0),   213, feed_margin=14),
             Label(["18", "pt18"],                               ( 18,   0), FormFactor.PTOUCH_ENDLESS,( 256,    0), ( 234,    0),   171, feed_margin=14),
             Label(["24", "pt24"],                               ( 24,   0), FormFactor.PTOUCH_ENDLESS,( 128,    0), ( 128,    0),   0, feed_margin=14),
