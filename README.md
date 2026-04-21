@@ -36,7 +36,7 @@ improvements and features planned, including:
 | QL-1115NWB       | Supported    |
 | PT-P750W         | Supported    |
 | PT-P900W         | Supported    |
-| PT-P950NW        | Supported    |
+| PT-P950NW        | ✔ Verified |
 | PT-E550W         | ✔️ Verified |
 
  - **Supported:** Device is supported, but no verification has been received.
@@ -48,7 +48,7 @@ improvements and features planned, including:
 
 | Type             | QL     | QL-10  | QL-11  | PT    | PT-E  |
 | ---------------- | ------ | ------ | ------ | ----- | ------ |
-| 6                | ❌    | ❌    | ❌    | ❌    | ✔️    |
+| 6                | ❌    | ❌    | ❌    | ✔     | ✔️    |
 | 9                | ❌    | ❌    | ❌    | ❌    | ✔️    |
 | 12               | ✔️    | ✔️    | ✔️    | ✔️    | ✔️    |
 | 18               | ✔️    | ✔️    | ✔️    | ✔️    | ✔️    |
