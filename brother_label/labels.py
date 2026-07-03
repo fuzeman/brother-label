@@ -1,8 +1,79 @@
-from attr import attrs, attrib
-from typing import List, Tuple
-from enum import IntEnum
+from enum import IntEnum, StrEnum
+import attrs
+import re
 
 from .core import ElementManager
+
+MEDIA_ENDLESS_PATTERN = re.compile(r"^(?P<width>\d+)(?P<color>red)?$")
+MEDIA_RECT_PATTERN = re.compile(r"^(?P<width>\d+)x(?P<height>\d+)$")
+MEDIA_ROUND_PATTERN = re.compile(r"^d(?P<diameter>\d+)$")
+
+class Media(StrEnum):
+    ENDLESS_6       = "6"
+    ENDLESS_9       = "9"
+    ENDLESS_12      = "12"
+    ENDLESS_18      = "18"
+    ENDLESS_24      = "24"
+    ENDLESS_29      = "29"
+    ENDLESS_36      = "36"
+    ENDLESS_38      = "38"
+    ENDLESS_50      = "50"
+    ENDLESS_54      = "54"
+    ENDLESS_62      = "62"
+    ENDLESS_62_RED  = "62red"
+    ENDLESS_102     = "102"
+    ENDLESS_103     = "103"
+    ENDLESS_104     = "104"
+
+    RECT_17x54      = "17x54"
+    RECT_17x87      = "17x87"
+    RECT_23x23      = "23x23"
+    RECT_29x42      = "29x42"
+    RECT_29x90      = "29x90"
+    RECT_39x48      = "39x48"
+    RECT_39x90      = "39x90"
+    RECT_52x29      = "52x29"
+    RECT_54x29      = "54x29"
+    RECT_60x86      = "60x86"
+    RECT_62x29      = "62x29"
+    RECT_62x100     = "62x100"
+    RECT_102x51     = "102x51"
+    RECT_102x152    = "102x152"
+    RECT_103x164    = "103x164"
+
+    ROUND_12        = "d12"
+    ROUND_24        = "d24"
+    ROUND_58        = "d58"
+
+    def __new__(cls, value):
+        obj = str.__new__(cls, value)
+        obj.description = cls.describe(value)
+        return obj
+
+    @classmethod
+    def describe(cls, value):
+        # Endless
+        match = MEDIA_ENDLESS_PATTERN.match(value)
+        if match:
+            out = '{0}mm endless'.format(match.group('width'))
+
+            if match.group('color') == 'red':
+                out += ' (black/red/white)'
+
+            return out
+
+        # Rectangle
+        match = MEDIA_RECT_PATTERN.match(value)
+        if match:
+            return '{0}mm x {1}mm die-cut'.format(match.group('width'), match.group('height'))
+
+        # Round
+        match = MEDIA_ROUND_PATTERN.match(value)
+        if match:
+            return '{0}mm round die-cut'.format(match.group('diameter'))
+
+        return 'unknown media ({0})'.format(value)
+
 
 class FormFactor(IntEnum):
     """
@@ -29,30 +100,32 @@ class Color(IntEnum):
     #: The label can be printed in black, white & red.
     BLACK_RED_WHITE = 1
 
-@attrs
+@attrs.define
 class Label(object):
     """
     This class represents a label. All specifics of a certain label
     and what the rasterizer needs to take care of depending on the
     label choosen, should be contained in this class.
     """
-    #: A string identifier given to each label that can be selected. Eg. '29'.
-    identifiers = attrib(type=[str])
+    #: The media type of the given label, must be unique per device. Eg. `Media.ENDLESS_29`.
+    media: Media
+    #: Additional media aliases for the given label.
+    aliases: [str]
     #: The tape size of a single label (width, lenght) in mm. For endless labels, the length is 0 by definition.
-    tape_size = attrib(type=Tuple[int, int])
+    tape_size: (int, int)
     #: The type of label
-    form_factor = attrib(type=FormFactor)
+    form_factor: FormFactor
     #: The total area (width, length) of the label in dots (@300dpi).
-    dots_total = attrib(type=Tuple[int, int])
+    dots_total: (int, int)
     #: The printable area (width, length) of the label in dots (@300dpi).
-    dots_printable = attrib(type=Tuple[int, int])
+    dots_printable: (int, int)
     #: The required offset from the right side of the label in dots to obtain a centered printout.
-    offset_r = attrib(type=int)
+    offset_r: int
     #: An additional amount of feeding when printing the label.
     #: This is non-zero for some smaller label sizes and for endless labels.
-    feed_margin = attrib(type=int, default=0)
+    feed_margin: int = 0
     #: Some labels allow printing in red, most don't.
-    color = attrib(type=Color, default=Color.BLACK_WHITE)
+    color: Color = Color.BLACK_WHITE
 
     def works_with_model(self, model): # type: bool
         """
@@ -62,18 +135,10 @@ class Label(object):
         else: return True
 
     @property
+    def identifiers(self): # type: [str]
+        return [self.media] + self.aliases
+
+    @property
     def name(self): # type: str
-        out = ""
-
-        if self.form_factor in (FormFactor.DIE_CUT,):
-            out = '{0}mm x {1}mm die-cut'.format(*self.tape_size)
-        elif self.form_factor in (FormFactor.ROUND_DIE_CUT,):
-            out = '{0}mm round die-cut'.format(self.tape_size[0])
-        else:
-            out = '{0}mm endless'.format(self.tape_size[0])
-
-        if self.color == Color.BLACK_RED_WHITE:
-            out += ' (black/red/white)'
-
-        return out
+        return self.media.description
     

@@ -25,6 +25,9 @@ class ElementManager:
 
     def values(self):
         return self._items.values()
+
+    def get(self, key, default=None, /):
+        return self._items.get(key, default)
     
     def __getitem__(self, key):
         return self._items[key]
