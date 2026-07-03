@@ -9,6 +9,7 @@ MEDIA_RECT_PATTERN = re.compile(r"^(?P<width>\d+)x(?P<height>\d+)$")
 MEDIA_ROUND_PATTERN = re.compile(r"^d(?P<diameter>\d+)$")
 
 class Media(StrEnum):
+    ENDLESS_3_5     = "3.5"
     ENDLESS_6       = "6"
     ENDLESS_9       = "9"
     ENDLESS_12      = "12"

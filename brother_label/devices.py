@@ -145,6 +145,7 @@ class BrotherDevicePTE(BrotherDevice):
     def __init__(self, *args, **kwargs):
         super().__init__(labels=(kwargs.pop('labels', []) + [
             # Endless
+            Label(Media.ENDLESS_3_5,    ["pte3.5"],                             (  4,   0), FormFactor.PTOUCH_ENDLESS,(  24,    0), (  24,    0),  52, feed_margin=14),
             Label(Media.ENDLESS_6,      ["pte6"],                               (  6,   0), FormFactor.PTOUCH_ENDLESS,(  42,    0), (  32,    0),  48, feed_margin=14),
             Label(Media.ENDLESS_9,      ["pte9"],                               (  9,   0), FormFactor.PTOUCH_ENDLESS,(  64,    0), (  50,    0),  39, feed_margin=14),
             Label(Media.ENDLESS_12,     ["pte12"],                              ( 12,   0), FormFactor.PTOUCH_ENDLESS,(  84,    0), (  70,    0),  29, feed_margin=14),
