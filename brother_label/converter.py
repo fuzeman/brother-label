@@ -15,14 +15,14 @@ from .raster import BrotherLabelRaster
 logger = logging.getLogger(__name__)
 
 class BrotherLabelConverter(object):
-    def convert(self, device, type, images,  **kwargs):
+    def convert(self, device, media, images,  **kwargs):
         r"""Converts one or more images to a raster instruction file.
 
         :param device:
             An instance of the BrotherDevice class
         :type device: :py:class:`brother_label.devices.BrotherDevice`
-        :param str type:
-            Type of label the printout should be on.
+        :param str media:
+            Media of label the printout should be on.
         :param images:
             The images to be converted. They can be filenames or instances of Pillow's Image.
         :type images: list(PIL.Image.Image) or list(str) images
@@ -50,7 +50,7 @@ class BrotherLabelConverter(object):
         if not device:
             raise LookupError('No device available')
         
-        label = device.labels_by_id[type]
+        label = device.labels_by_id[media]
         raster = BrotherLabelRaster(device)
 
         right_margin_dots = label.offset_r + device.additional_offset_r

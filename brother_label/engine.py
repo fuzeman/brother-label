@@ -19,7 +19,7 @@ class BrotherLabel(object):
         # Device
         if device and isinstance(device, str):
             self.device = self.devices[device]
-        elif device:
+        else:
             self.device = device
 
         # Backend
@@ -35,11 +35,11 @@ class BrotherLabel(object):
             self.list_available_devices = None
             self.backend = None
 
-    def convert(self, type, images, device=None, **kwargs):
+    def convert(self, media, images, device=None, **kwargs):
         if device and isinstance(device, str):
             device = self.devices[device]
 
-        return self.converter.convert(device or self.device, type, images, **kwargs)
+        return self.converter.convert(device or self.device, media, images, **kwargs)
 
     def discover(self):
         if not self.backend:
@@ -47,8 +47,8 @@ class BrotherLabel(object):
         
         return self.list_available_devices()
     
-    def print(self, type, images, target=None, backend=None, blocking=True,  **kwargs):
-        instructions = self.convert(type, images, **kwargs)
+    def print(self, media, images, target=None, backend=None, blocking=True,  **kwargs):
+        instructions = self.convert(media, images, **kwargs)
 
         self.send(
             instructions,
