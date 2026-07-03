@@ -54,7 +54,7 @@ classifiers = [
 ]
 
 [project.scripts]
-brother_ql = "brother_ql.cli:cli"
+brother-label = "brother_label.cli:cli"
 
 [project.urls]
 repository = "https://github.com/fuzeman/brother-label"
