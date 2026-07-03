@@ -4,7 +4,7 @@ import re
 
 from .core import ElementManager
 
-MEDIA_ENDLESS_PATTERN = re.compile(r"^(?P<width>\d+)(?P<color>red)?$")
+MEDIA_ENDLESS_PATTERN = re.compile(r"^(?P<width>[\d\.]+)(?P<color>red)?$")
 MEDIA_RECT_PATTERN = re.compile(r"^(?P<width>\d+)x(?P<height>\d+)$")
 MEDIA_ROUND_PATTERN = re.compile(r"^d(?P<diameter>\d+)$")
 
